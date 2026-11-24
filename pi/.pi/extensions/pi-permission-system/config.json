@@ -3,9 +3,7 @@
   "permission": {
     "external_directory": {
       "*": "ask",
-      "$HOME/agent-workspace": "allow",
-      "$HOME/agent-workspace/*": "allow",
-      "$HOME/.local/share/mise/installs/pi*": "allow"
+      "~/.local/share/mise/installs/pi/*": "allow"
     },
     "bash": {
       "zellij *": "allow"

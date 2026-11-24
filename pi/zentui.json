@@ -2,7 +2,7 @@
   "components": {
     "editor": {
       "enabled": false,
-      "style": "opencode",
+      "style": "opencode-copy-friendly",
       "colorSource": "theme",
       "borderColorMode": "static",
       "modelLabel": "id",
@@ -123,7 +123,7 @@
             "error": 90
           },
           "pathDisplay": {
-            "mode": "basename",
+            "mode": "full",
             "depth": 0
           },
           "segments": {
@@ -188,7 +188,7 @@
       "previewLines": 8,
       "expandedPreviewMaxLines": 4000,
       "bashCollapsedLines": 10,
-      "diffViewMode": "auto",
+      "diffViewMode": "unified",
       "diffIndicatorMode": "bars",
       "diffSplitMinWidth": 120,
       "diffCollapsedLines": 24,

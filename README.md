@@ -21,6 +21,24 @@ To understand why this tool exists and the principles behind it, see [`PHILOSOPH
 
 ## Architecture
 
-For an overview of how the workspace components fit together, see [`ARCHITECTURE.md`](ARCHITECTURE.md). Component-specific details are documented alongside their configuration in [`pi/`](pi/README.md) and [`zellij/`](zellij/README.md).
+```mermaid
+flowchart TB
+    human["Human<br/>direction · verification · agency"]
+
+    subgraph surface["Malleable workspace surface"]
+        home["Workspace tab (home base)<br/>Collaborator agent + terminal"]
+        tasks["Task tabs<br/>Task agent + terminal"]
+        harness["Adaptable workspace<br/>Pi setup · layouts · commands"]
+
+        home -->|"evolves the workspace"| harness
+        harness -.->|"equips"| home
+        harness -.->|"equips"| tasks
+    end
+
+    human <-->|"steers and adapts"| home
+    human <-->|"works and verifies"| tasks
+```
+
+For more detail, see [`ARCHITECTURE.md`](ARCHITECTURE.md). Component-specific details are documented alongside their configuration in [`pi/`](pi/README.md) and [`zellij/`](zellij/README.md).
 
 Use Conventional Commits; see `CONTRIBUTING.md`. Enable the included template in this clone with `git config --local commit.template "$PWD/.gitmessage"`.

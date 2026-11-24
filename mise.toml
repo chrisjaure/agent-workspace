@@ -1,5 +1,7 @@
 [tools]
 # Keep these in sync with the versions tested by the workspace.
+bat = "0.26.1"
+ripgrep = "15.2.0"
 fzf = "0.75.0"
 pi = "1.6.0"
 zellij = "0.46.0"

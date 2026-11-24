@@ -6,13 +6,18 @@ My malleable agent setup. Self-contained workspace for Pi and Zellij configurati
 
 - `pi/` — Pi agent directory and global instructions.
 - `zellij/` — Zellij config, layouts, and helper scripts.
+- `bin/` — workspace CLI commands, currently `bench`.
 - `launch-agent` — sets the workspace environment and starts the `Agent` layout.
 
-`mise.toml` pins Pi, Zellij, and `fzf`. On a fresh checkout, run `mise trust` and `mise install`, then start the workspace with `./launch-agent`.
+[`mise.toml`](mise.toml) defines the pinned tool versions. On a fresh checkout, run `mise trust` and `mise install`, then start the workspace with `./launch-agent`.
+
+## Commands
+
+Use `bench edit [file]` to open a file in a floating pane; it uses `EDITOR` if set and defaults to `vim`. With no file argument, it opens an `fzf` picker with a `bat` preview; `ripgrep` supplies candidates while respecting ignore rules. The command is available in panes launched with `./launch-agent`.
 
 ## Philosophy
 
-To understand why this tool exists and the principles behind it, see [PHILOSOPHY](./PHILOSOPHY.md).
+To understand why this tool exists and the principles behind it, see [`PHILOSOPHY.md`](./PHILOSOPHY.md).
 
 ## Architecture
 

@@ -17,7 +17,6 @@
       "*": "ask",
       "rm -rf *": "deny",
       "sudo *": "ask",
-      "*": "ask",
 
       // File inspection
       "cat *": "allow",
@@ -35,6 +34,7 @@
       "du *": "allow",
       "df *": "allow",
       "echo *": "allow",
+      "sort": "allow",
 
       // Search (find/fd with -exec are auto-floored to ask)
       "grep *": "allow",

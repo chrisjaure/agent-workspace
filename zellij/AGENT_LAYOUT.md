@@ -1,6 +1,6 @@
 # Agent Zellij Layout
 
-Start the workspace with `../launch-agent` from this directory's parent. The launcher sets `PI_CODING_AGENT_DIR` to `pi/`, `ZELLIJ_CONFIG_DIR` to `zellij/`, then opens the `Agent` layout.
+From the workspace root, run `./launch-agent` after `mise trust` and `mise install`. The launcher sets `PI_CODING_AGENT_DIR` to `pi/`, `ZELLIJ_CONFIG_DIR` to `zellij/`, then opens the `Agent` layout.
 
 ## Layouts
 

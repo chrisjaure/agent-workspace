@@ -13,7 +13,7 @@ My malleable agent setup. Self-contained workspace for Pi and Zellij configurati
 
 ## Commands
 
-Use `bench edit [file]` to open a file in a floating pane; it uses `EDITOR` if set and defaults to `vim`. With no file argument, it opens an `fzf` picker with a `bat` preview; `ripgrep` supplies candidates while respecting ignore rules. The command is available in panes launched with `./launch-agent`.
+Use `bench edit [file]` to open a file in a floating pane; it interprets `EDITOR` as a shell command and defaults to `vim`. With no file argument, it opens an `fzf` picker with a `bat` preview; `ripgrep` supplies candidates while respecting ignore rules. The command is available in panes launched with `./launch-agent`.
 
 ## Philosophy
 

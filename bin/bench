@@ -5,12 +5,12 @@ usage() {
     printf 'Usage: bench edit [file]\n' >&2
 }
 
-require_editor() {
-    editor=${EDITOR:-vim}
-    if ! command -v "$editor" >/dev/null 2>&1; then
-        printf 'Editor not found: %s\n' "$editor" >&2
-        exit 127
-    fi
+run_editor() {
+    file=$1
+    editor_command=${EDITOR:-vim}
+    # Treat EDITOR as a shell command so configured options are supported.
+    # The file path is expanded only after being quoted in the evaluated command.
+    eval "exec $editor_command \"\$file\""
 }
 
 # Resolve the script path so the picker can relaunch this command in a pane,
@@ -24,6 +24,8 @@ case $script_path in
     *) script_path=$PWD/$script_path ;;
 esac
 
+# Keep Zellij-specific pane creation at this boundary; the modes it launches
+# perform their work without calling Zellij themselves.
 open_floating_pane() {
     exec zellij action new-pane \
         --floating \
@@ -67,15 +69,13 @@ case "${1-}" in
             usage
             exit 2
         fi
-        require_editor
         if [ "$#" -eq 1 ]; then
-            open_floating_pane "$editor" "$1"
+            open_floating_pane "$script_path" _open-editor "$1"
         else
             open_floating_pane "$script_path" _pick-and-edit
         fi
         ;;
     _pick-and-edit)
-        require_editor
         if ! command -v fzf >/dev/null 2>&1; then
             printf 'Required command not found: fzf\n' >&2
             exit 127
@@ -96,7 +96,15 @@ case "${1-}" in
             exit 0
         fi
         [ -n "$file" ] || exit 0
-        exec "$editor" "$file"
+        exec "$script_path" _open-editor "$file"
+        ;;
+    _open-editor)
+        shift
+        if [ "$#" -ne 1 ]; then
+            usage
+            exit 2
+        fi
+        run_editor "$1"
         ;;
     *)
         usage

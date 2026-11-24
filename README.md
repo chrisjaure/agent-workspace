@@ -1,6 +1,6 @@
 # Agent Workspace
 
-My agent setup. Self-contained workspace for Pi and Zellij configuration.
+My malleable agent setup. Self-contained workspace for Pi and Zellij configuration.
 
 ## Contents
 
@@ -9,6 +9,10 @@ My agent setup. Self-contained workspace for Pi and Zellij configuration.
 - `launch-agent` — sets the workspace environment and starts the `Agent` layout.
 
 `mise.toml` pins Pi, Zellij, and `fzf`. On a fresh checkout, run `mise trust` and `mise install`, then start the workspace with `./launch-agent`.
+
+## Philosophy
+
+To understand why this tool exists and the principles behind it, see [PHILOSOPHY](./PHILOSOPHY.md).
 
 ## Architecture
 

@@ -1,12 +1,17 @@
----
-status: draft
----
+> [!NOTE]
+> This document is human-created. Agents are banned from modify it.
 
 # Why Does This Exist?
 
 Inspired by the [malleable systems mission](https://malleable.systems/mission/), I want to create a composable collection of tools that allow an agent and a human to collaborate in a workspace that either can modify to suit the task at hand.
 
-This workspace is my own personal way of working and may contain Pi extensions or Zellij layouts that don't work for you. This is fine! Consider it more of a template that you can copy if you like. The tools this workspace is composed of are flexible.
+I'm also inspired by [Toyota's Production System](https://global.toyota/en/company/vision-and-philosophy/production-system/) and its approach to human/machine interaction (Jidoka): "'automation with a human touch', where human wisdom is added to automation." A human must maintain control and agency and not be reduced to simply monitoring an agent.
+
+Finally, I also realize it's impossible to adopt large systems without understanding each component. I see a lot of that today with massive collections of agent workflows and cross-dependencies on many skills and tools. Everyone shares their own way of doing it but leaves out how they got there. That story and evolution is important for intellectual control over the system. With this workspace, I aim to teach in layers.
+
+---
+
+With that said, this workspace *is* my own personal way of working and may contain Pi extensions or Zellij layouts that don't work for you. This is fine! Consider it more of a template that you can copy if you like. The tools in this workspace are flexible.
 
 My task now is to remove unreasonable assumptions (like needless coupling to a specific tool) that add friction to the malleable nature of the workspace.
 
@@ -40,3 +45,4 @@ See the [Pi extension inventory](pi/README.md#extensions) for the current extens
 
 I'm still evaluating Zellij for the general surface, but compared to other environments or terminal multiplexers, Zellij gets a lot right. I especially like the discoverable UX it provides in combination with advanced capabilities. It has a [very gentle slope from user to creator](https://www.inkandswitch.com/essay/malleable-software/#a-gentle-slope-from-user-to-creator). Combined with its programmatic controls, it acts as a great collaborative surface for humans and agents.
 
+I do want to note that Zellij does fall short on an important malleable principle: modifying in the context of use. A separate toolchain is required to compile Zellij plugins, and it's not possible to apply them to existing sessions. This breaks the flow and lengthens the feedback loop of contextual, iterative modification, and it could lead to the replacement of Zellij with a surface that's more malleable.

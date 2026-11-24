@@ -1,0 +1,6 @@
+{
+  "simpleMode": true,
+  "advisorOutcomeLogging": false,
+  "advisorFallbackModel": "opencode-go/gemini-4-argon",
+  "advisorToolsEnabled": true
+}

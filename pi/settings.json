@@ -1,0 +1,54 @@
+{
+  "lastChangelogVersion": "1.6.0",
+  "theme": "dark",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "gpt-6-luna",
+  "defaultThinkingLevel": "medium",
+  "packages": [
+    "npm:@gotgenes/pi-permission-system",
+    "npm:pi-context-view",
+    "npm:pi-zentui",
+    "npm:pi-observational-memory",
+    "npm:pi-advisor-flow"
+  ],
+  "compaction": {
+    "enabled": false
+  },
+  "observational-memory": {
+    "model": {
+      "provider": "opencode-go",
+      "id": "beam-free",
+      "thinking": "low"
+    }
+  },
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:@gotgenes/pi-permission-system\",\"scope\":\"user\"}": "42.2.1",
+    "{\"source\":\"npm:pi-context-view\",\"scope\":\"user\"}": "0.8.4",
+    "{\"source\":\"npm:pi-advisor-flow\",\"scope\":\"user\"}": "0.17.0"
+  },
+  "extensions": [],
+  "enabledModels": [
+    "google/gemini-flash-lite-latest",
+    "opencode-go/gpt-6-luna",
+    "opencode-go/beam-free",
+    "opencode-go/muse-spark-1.3-contributor",
+    "opencode-go/kimi-k3.1-pro",
+    "opencode-go/hy4-flash-free",
+    "opencode-go/hy4",
+    "opencode-go/deepseek-v4.1-flash",
+    "opencode-go/gemini-4-argon",
+    "opencode-go/minimax-m3",
+    "opencode-go/qwen4-max"
+  ],
+  "defaultTools": [
+    "+codemode"
+  ],
+  "editorPaddingX": 1,
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "steeringMode": "one-at-a-time",
+  "followUpMode": "one-at-a-time",
+  "fullscreenCopyOnSelect": true,
+  "hideThinkingBlock": true
+}

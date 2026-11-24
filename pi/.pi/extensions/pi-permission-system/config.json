@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/gotgenes/pi-packages/main/packages/pi-permission-system/schemas/permissions.schema.json",
+  "permission": {
+    "external_directory": {
+      "*": "ask",
+      "$HOME/agent-workspace": "allow",
+      "$HOME/agent-workspace/*": "allow",
+      "$HOME/.local/share/mise/installs/pi*": "allow"
+    },
+    "bash": {
+      "zellij *": "allow"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+#!/bin/sh
+set -eu
+
+script_path=$0
+case $script_path in
+    */*) ;;
+    *) script_path=$(command -v "$script_path") ;;
+esac
+workspace_dir=$(CDPATH= cd -P "$(dirname "$script_path")" && pwd)
+
+if ! command -v mise >/dev/null 2>&1; then
+    printf 'Required command not found: mise\n' >&2
+    exit 127
+fi
+
+export AGENT_WORKSPACE_DIR="$workspace_dir"
+export PI_CODING_AGENT_DIR="$workspace_dir/pi"
+export ZELLIJ_CONFIG_DIR="$workspace_dir/zellij"
+
+cd "$workspace_dir"
+exec mise exec --cd "$workspace_dir" -- zellij --layout Agent "$@"

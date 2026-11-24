@@ -1,0 +1,16 @@
+layout {
+    pane size=1 borderless=true {
+        plugin location="zellij:bars" {
+            role "tab-bar"
+        }
+    }
+    pane {
+        pane size="75%" command="pi"
+        pane size="25%"
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:bars" {
+            role "status-bar"
+        }
+    }
+}

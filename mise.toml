@@ -1,0 +1,5 @@
+[tools]
+# Keep these in sync with the versions tested by the workspace.
+fzf = "0.75.0"
+pi = "1.6.0"
+zellij = "0.46.0"

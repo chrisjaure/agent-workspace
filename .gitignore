@@ -1,0 +1,13 @@
+# Pi credentials, trust state, sessions, logs, and local model data
+/pi/**/auth.json
+/pi/**/trust.json
+/pi/**/sessions/
+/pi/**/models-store.json
+/pi/**/logs/
+
+# Locally installed Pi helpers and packages
+/pi/**/bin/
+/pi/**/npm/
+
+# Misc
+*.bak

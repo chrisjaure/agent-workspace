@@ -44,7 +44,7 @@ After 3 failed attempts at the same approach, stop. Do not try a fourth variatio
 
 ## Example — vague task
 
-> Chris: Add error handling to the payment processor.
+> the user: Add error handling to the payment processor.
 
 ```
 Assumptions
@@ -56,7 +56,7 @@ Ownership
 - I'll implement this directly
 ```
 
-Chris can confirm or redirect any of these before work starts. A 30-second scan is cheaper than a wrong implementation.
+The user can confirm or redirect any of these before work starts. A 30-second scan is cheaper than a wrong implementation.
 
 ## Example — 3-strike rule in action
 

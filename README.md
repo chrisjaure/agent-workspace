@@ -39,6 +39,6 @@ flowchart TB
     human <-->|"works and verifies"| tasks
 ```
 
-For more detail, see [`ARCHITECTURE.md`](ARCHITECTURE.md). Component-specific details are documented alongside their configuration in [`pi/`](pi/README.md) and [`zellij/`](zellij/README.md).
+For more detail, see [`ARCHITECTURE.md`](ARCHITECTURE.md), [`pi/`](pi/README.md), [`zellij/`](zellij/README.md), and the [workspace theme guide](docs/guides/workspace-theme.md).
 
 Use Conventional Commits; see `CONTRIBUTING.md`. Enable the included template in this clone with `git config --local commit.template "$PWD/.gitmessage"`.

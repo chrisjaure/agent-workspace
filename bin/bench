@@ -2,7 +2,7 @@
 set -eu
 
 usage() {
-    printf 'Usage: bench edit [file]\n' >&2
+    printf 'Usage: bench edit [file] | bench diff [--delta-tui]\n' >&2
 }
 
 run_editor() {
@@ -63,6 +63,28 @@ file_candidates() {
 }
 
 case "${1-}" in
+    diff)
+        shift
+        case $# in
+            0)
+                open_floating_pane git diff HEAD
+                ;;
+            1)
+                if [ "$1" != "--delta-tui" ]; then
+                    usage
+                    exit 2
+                fi
+                open_floating_pane git \
+                    -c 'pager.diff=delta --tui' \
+                    -c delta.start-folded=true \
+                    diff HEAD
+                ;;
+            *)
+                usage
+                exit 2
+                ;;
+        esac
+        ;;
     edit)
         shift
         if [ "$#" -gt 1 ]; then

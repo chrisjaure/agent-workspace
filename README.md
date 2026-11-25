@@ -31,7 +31,7 @@ Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](.
 
 - [`pi/`](./pi/README.md) — Pi agent directory, instructions, settings, and extensions.
 - [`zellij/`](./zellij/README.md) — Zellij configuration, layouts, and helper scripts.
-- `bin/` — workspace CLI commands, currently `bench`.
+- `bin/` — workspace CLI tools; see the command reference below.
 - `launch-agent` — sets the workspace environment and starts the `Agent` layout.
 
 ## Commands
@@ -39,6 +39,10 @@ Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](.
 | Command | Description |
 | --- | --- |
 | `bench edit [file]` | Open a file in a floating pane, or pick one with `fzf` when no file is given. |
+| `bench diff` | Review a Git diff in a floating pane using your configured pager. |
+| `bench diff --delta-tui` | Use Delta's TUI for this diff, with files folded initially. |
+
+See the [Git tools guide](./docs/guides/git-tools.md) for pager configuration and Delta theme details.
 
 ## Customize
 

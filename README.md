@@ -2,6 +2,27 @@
 
 My malleable agent setup. Self-contained workspace for Pi and Zellij configuration.
 
+```mermaid
+flowchart TD
+    human["👷 Human"]
+
+    subgraph surface["🎨 Malleable workspace surface"]
+        direction LR
+        home["🤖 Collaborator agent"]
+        tasks@{ shape: st-rect, label: "🤖 Task agents" }
+        harness(("Workspace tools & configuration"))
+
+        home -->|"evolves"| harness
+        harness -.->|"equips"| home
+        harness -.->|"equips"| tasks
+    end
+
+    human -->|"prompts & steers "| surface
+    surface -->|"prompts & alerts"| human
+```
+
+The diagram connects the workspace's human-centered principles with its structure. [`PHILOSOPHY.md`](PHILOSOPHY.md) explains the principles; [`ARCHITECTURE.md`](ARCHITECTURE.md) covers the technical setup. For component details, see [`pi/`](pi/README.md) and [`zellij/`](zellij/README.md).
+
 ## Get started
 
 [`mise.toml`](mise.toml) pins the tool versions. On a fresh checkout, run `mise trust`, then `mise install`, and start the workspace with `./launch-agent`.
@@ -21,26 +42,6 @@ Use `bench edit [file]` to open a file in a floating pane; it interprets `EDITOR
 
 Use the task-oriented [customization guides](docs/guides/) to adapt the workspace and see how changes take effect.
 
-## How it works
-
-```mermaid
-flowchart TB
-    human["Human<br/>direction · verification · agency"]
-
-    subgraph surface["Malleable workspace surface"]
-        home["Workspace tab (home base)<br/>Collaborator agent + terminal"]
-        tasks["Task tabs<br/>Task agent + terminal"]
-        harness["Adaptable workspace<br/>Pi setup · layouts · commands"]
-
-        home -->|"evolves the workspace"| harness
-        harness -.->|"equips"| home
-        harness -.->|"equips"| tasks
-    end
-
-    human <-->|"steers and adapts"| home
-    human <-->|"works and verifies"| tasks
-```
-
-The diagram connects the workspace's human-centered principles with its structure. [`PHILOSOPHY.md`](PHILOSOPHY.md) explains the principles; [`ARCHITECTURE.md`](ARCHITECTURE.md) covers the technical setup. For component details, see [`pi/`](pi/README.md) and [`zellij/`](zellij/README.md).
+---
 
 Use Conventional Commits; see `CONTRIBUTING.md`. Enable the included template in this clone with `git config --local commit.template "$PWD/.gitmessage"`.

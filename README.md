@@ -36,6 +36,8 @@ Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](.
 
 ## Commands
 
+Set `AGENT` to choose the agent command; it defaults to `pi` and may include whitespace-separated arguments (for example, `AGENT='my-agent --resume' ./launch-agent`). It is not evaluated as shell syntax; use a wrapper script if your agent needs complex arguments. The Zellij layouts invoke `bin/workspace-agent`, so changing agents does not require editing the layouts. Pi-specific configuration under `pi/` is only used by Pi; another agent can use its own configuration.
+
 Use `bench edit [file]` to open a file in a floating pane; it interprets `EDITOR` as a shell command and defaults to `vim`. With no file argument, it opens an `fzf` picker with a `bat` preview; `ripgrep` supplies candidates while respecting ignore rules. The command is available in panes launched with `./launch-agent`.
 
 ## Customize

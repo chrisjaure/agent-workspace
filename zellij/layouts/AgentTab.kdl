@@ -5,7 +5,7 @@ layout {
         }
     }
     pane {
-        pane size="75%" command="pi"
+        pane size="75%" command="workspace-agent"
         pane size="25%"
     }
     pane size=1 borderless=true {

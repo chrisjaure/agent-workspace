@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+agent_command=${AGENT:-pi}
+case $agent_command in
+    *[![:space:]]*) ;;
+    *)
+        printf 'AGENT must name a command\n' >&2
+        exit 127
+        ;;
+esac
+
+# Split a simple command and its arguments, but do not evaluate shell syntax.
+set -f
+# shellcheck disable=SC2086
+exec $agent_command "$@"

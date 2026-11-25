@@ -6,7 +6,7 @@ layout {
                 role "tab-bar"
             }
         }
-        pane command="pi" cwd="." size="75%" {
+        pane command="workspace-agent" cwd="." size="75%" {
             start_suspended true
         }
         pane cwd="." size="25%"

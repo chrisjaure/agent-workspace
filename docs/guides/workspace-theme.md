@@ -58,13 +58,13 @@ Use `zellij action set-dark-theme` or `zellij action set-light-theme` to choose 
 
 ## Malleability scorecard
 
-| Customization | Where/how | Takes effect | Restart? |
+| Customization | Where/how | Takes effect | Reload/restart? |
 |---|---|---|---|
-| Choose a built-in or already-loaded Pi theme | Pi `/settings` → **Theme** | In Pi | No |
+| Choose a built-in or already-loaded Pi theme | Pi `/settings` → **Theme** | In the current Pi session | No |
 | Preview a different Pi theme for one invocation | `pi --use-theme <name>` | That Pi invocation | No; does not persist |
-| Add or edit a custom Pi theme in `pi/themes/` | Add JSON, `/reload`, then select in `/settings` | Active theme edits hot-reload | `/reload` to discover a new theme |
-| Change Zellij’s fixed theme | `theme` in `zellij/config.kdl` | When Zellij loads the config | Restart the Zellij session |
-| Switch between configured Zellij light/dark themes | `zellij action toggle-theme` | Active Zellij session | No, once the pair is configured |
-| Change the terminal’s palette | Terminal emulator settings | Terminal and programs using its colors | Terminal-specific |
+| Add or edit a custom Pi theme in `pi/themes/` | Add JSON, `/reload`, then select in `/settings` | Active theme edits hot-reload; a new theme appears after `/reload` | `/reload` for discovery; no restart |
+| Change Zellij’s fixed theme | `theme` in `zellij/config.kdl` | When a new Zellij session loads the config | Restart the Zellij session |
+| Switch between configured Zellij light/dark themes | `zellij action toggle-theme` | Immediately in the active Zellij session | No, once the pair is configured |
+| Change the terminal’s palette | Terminal emulator settings | Terminal and programs using its colors | Depends on the terminal emulator |
 
 Pi’s `system` theme follows terminal colors. Zentui components can source colors from Pi’s theme or the terminal palette; Zellij and other programs have their own theme settings.

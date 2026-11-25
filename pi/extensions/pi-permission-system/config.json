@@ -34,8 +34,9 @@
       "du *": "allow",
       "df *": "allow",
       "echo *": "allow",
+      "printf *": "allow",
       "sort": "allow",
-      "test": "allow",
+      "test *": "allow",
 
       // Search (find/fd with -exec are auto-floored to ask)
       "grep *": "allow",

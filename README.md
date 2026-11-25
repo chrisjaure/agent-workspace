@@ -36,13 +36,15 @@ Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](.
 
 ## Commands
 
-Set `AGENT` to choose the agent command; it defaults to `pi` and may include whitespace-separated arguments (for example, `AGENT='my-agent --resume' ./launch-agent`). It is not evaluated as shell syntax; use a wrapper script if your agent needs complex arguments. The Zellij layouts invoke `bin/workspace-agent`, so changing agents does not require editing the layouts. Pi-specific configuration under `pi/` is only used by Pi; another agent can use its own configuration.
-
-Use `bench edit [file]` to open a file in a floating pane; it interprets `EDITOR` as a shell command and defaults to `vim`. With no file argument, it opens an `fzf` picker with a `bat` preview; `ripgrep` supplies candidates while respecting ignore rules. The command is available in panes launched with `./launch-agent`.
+| Command | Description |
+| --- | --- |
+| `bench edit [file]` | Open a file in a floating pane, or pick one with `fzf` when no file is given. |
 
 ## Customize
 
-Use the task-oriented [customization guides](./docs/guides/) to adapt the workspace and see how changes take effect.
+To change the agent harness (defaults to `pi`), set `$AGENT` to choose the agent command; it may include whitespace-separated arguments (for example, `AGENT='my-agent --resume' ./launch-agent`). It is not evaluated as shell syntax; use a wrapper script if your agent needs complex arguments. Pi-specific configuration under `pi/` is only used by Pi; another agent can use its own configuration.
+
+For more advanced customizations, use the task-oriented [customization guides](./docs/guides/).
 
 ## Contributing
 

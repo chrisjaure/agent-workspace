@@ -42,6 +42,8 @@ Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](.
 | `bench diff` | Review a Git diff in a floating pane using your configured pager. |
 | `bench diff --delta-tui` | Use Delta's TUI for this diff, with files folded initially. |
 
+Commands are executable files in [`bin/bench-commands/`](./bin/bench-commands/). Add an executable file there to add a command; names start with a letter or digit and use only letters, numbers, `_`, or `-`. The dispatcher passes arguments, standard streams, and exit status through.
+
 See the [Git tools guide](./docs/guides/git-tools.md) for pager configuration and Delta theme details.
 
 ## Customize

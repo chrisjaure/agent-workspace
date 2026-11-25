@@ -1,0 +1,35 @@
+#!/bin/sh
+set -eu
+
+usage() {
+    printf 'Usage: bench diff [--delta-tui]\n' >&2
+}
+
+open_floating_pane() {
+    exec zellij action new-pane \
+        --floating \
+        --close-on-exit \
+        --width '80%' \
+        --height '80%' \
+        -- "$@"
+}
+
+case $# in
+    0)
+        open_floating_pane git diff HEAD
+        ;;
+    1)
+        if [ "$1" != '--delta-tui' ]; then
+            usage
+            exit 2
+        fi
+        open_floating_pane git \
+            -c 'pager.diff=delta --tui' \
+            -c delta.start-folded=true \
+            diff HEAD
+        ;;
+    *)
+        usage
+        exit 2
+        ;;
+esac

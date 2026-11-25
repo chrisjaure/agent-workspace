@@ -1,6 +1,6 @@
 # Agent Workspace
 
-My malleable agent setup. Self-contained workspace for Pi and Zellij configuration.
+My malleable workspace for human+agent collaboration.
 
 ```mermaid
 flowchart TD
@@ -21,16 +21,16 @@ flowchart TD
     surface -->|"prompts & alerts"| human
 ```
 
-The diagram connects the workspace's human-centered principles with its structure. [`PHILOSOPHY.md`](PHILOSOPHY.md) explains the principles; [`ARCHITECTURE.md`](ARCHITECTURE.md) covers the technical setup. For component details, see [`pi/`](pi/README.md) and [`zellij/`](zellij/README.md).
+Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](./ARCHITECTURE.md) covers the technical setup.
 
 ## Get started
 
-[`mise.toml`](mise.toml) pins the tool versions. On a fresh checkout, run `mise trust`, then `mise install`, and start the workspace with `./launch-agent`.
+[`mise.toml`](./mise.toml) pins the tool versions. On a fresh checkout, run `mise trust`, then `mise install`, and start the workspace with `./launch-agent`.
 
 ## Workspace map
 
-- `pi/` — Pi agent directory, instructions, settings, and extensions.
-- `zellij/` — Zellij configuration, layouts, and helper scripts.
+- [`pi/`](./pi/README.md) — Pi agent directory, instructions, settings, and extensions.
+- [`zellij/`](./zellij/README.md) — Zellij configuration, layouts, and helper scripts.
 - `bin/` — workspace CLI commands, currently `bench`.
 - `launch-agent` — sets the workspace environment and starts the `Agent` layout.
 
@@ -40,8 +40,8 @@ Use `bench edit [file]` to open a file in a floating pane; it interprets `EDITOR
 
 ## Customize
 
-Use the task-oriented [customization guides](docs/guides/) to adapt the workspace and see how changes take effect.
+Use the task-oriented [customization guides](./docs/guides/) to adapt the workspace and see how changes take effect.
 
----
+## Contributing
 
 Use Conventional Commits; see `CONTRIBUTING.md`. Enable the included template in this clone with `git config --local commit.template "$PWD/.gitmessage"`.

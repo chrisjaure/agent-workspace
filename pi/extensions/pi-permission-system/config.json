@@ -35,6 +35,7 @@
       "df *": "allow",
       "echo *": "allow",
       "sort": "allow",
+      "test": "allow",
 
       // Search (find/fd with -exec are auto-floored to ask)
       "grep *": "allow",

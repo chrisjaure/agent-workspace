@@ -50,6 +50,3 @@ To change the agent harness (defaults to `pi`), set `$AGENT` to choose the agent
 
 For more advanced customizations, use the task-oriented [customization guides](./docs/guides/).
 
-## Contributing
-
-Use Conventional Commits; see `CONTRIBUTING.md`. Enable the included template in this clone with `git config --local commit.template "$PWD/.gitmessage"`.

@@ -25,7 +25,7 @@ Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](.
 
 ## Get started
 
-[`mise.toml`](./mise.toml) pins the tool versions. On a fresh checkout, run `mise trust`, then `mise install`, and start the workspace with `./launch-agent`.
+[`mise.toml`](./mise.toml) pins the tool versions. To use those pinned versions, run `mise trust` and `mise install`, then start the workspace with `./launch-agent`. If you don't want to use `mise`, the launcher falls back to commands available on your `PATH`.
 
 ## Workspace map
 

@@ -8,15 +8,18 @@ case $script_path in
 esac
 workspace_dir=$(CDPATH= cd -P "$(dirname "$script_path")" && pwd)
 
-if ! command -v mise >/dev/null 2>&1; then
-    printf 'Required command not found: mise\n' >&2
-    exit 127
-fi
-
 export AGENT_WORKSPACE_DIR="$workspace_dir"
 export PI_CODING_AGENT_DIR="$workspace_dir/pi"
 export ZELLIJ_CONFIG_DIR="$workspace_dir/zellij"
 export PATH="$workspace_dir/bin:$PATH"
 
 cd "$workspace_dir"
-exec mise exec --cd "$workspace_dir" -- zellij --layout Agent "$@"
+
+if command -v mise >/dev/null 2>&1; then
+    missing_tools=$(mise ls --missing --cd "$workspace_dir" --no-header 2>/dev/null) || missing_tools=unavailable
+    if [ -z "$missing_tools" ]; then
+        exec mise exec --cd "$workspace_dir" -- zellij --layout Agent "$@"
+    fi
+fi
+
+exec zellij --layout Agent "$@"

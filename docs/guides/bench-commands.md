@@ -1,8 +1,8 @@
 # Add a `bench` command
 
-`bench` dispatches to executable files in [`bin/bench-commands/`](../../bin/bench-commands/). The command name is the filename: `bin/bench-commands/handoff` runs as `bench handoff`. Add a command there instead of editing the dispatcher.
+`bench` dispatches to executable files in [`bin/bench-commands/`](../../bin/bench-commands/). The command name is the filename: `bin/bench-commands/handoff` runs as `bench handoff`. Add a command there instead of editing the dispatcher. Running `bench` in a terminal opens a searchable command picker; without an interactive terminal or `fzf`, it prints the command list. `bench --help` always prints the list.
 
-Commands receive the remaining arguments and inherit the current working directory, environment, standard streams, and exit status. See the [command documentation](../../README.md#commands) for executable-file and command-name rules.
+Commands receive the remaining arguments and inherit the current working directory, environment, standard streams, and exit status. Add a one-line `# bench-description: ...` comment on the second line, after the shebang, so the picker and help output can explain the command. Commands without a description still appear with a fallback label. See the [command documentation](../../README.md#commands) for executable-file and command-name rules.
 
 ## Example: share a task handoff
 
@@ -14,6 +14,7 @@ Create `bin/bench-commands/handoff`:
 
 ```sh
 #!/bin/sh
+# bench-description: Open a shared handoff note for the current project.
 set -eu
 
 command_dir=$(CDPATH='' cd -P "$(dirname "$0")" && pwd -P)

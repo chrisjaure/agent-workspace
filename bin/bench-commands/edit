@@ -1,4 +1,5 @@
 #!/bin/sh
+# bench-description: Edit a file in a floating pane, or choose one with fzf.
 set -eu
 
 usage() {

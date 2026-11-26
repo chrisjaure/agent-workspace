@@ -38,11 +38,13 @@ Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](.
 
 | Command | Description |
 | --- | --- |
+| `bench` | Pick a command interactively, or list commands when no interactive terminal is available. |
+| `bench --help` | List commands and their descriptions. |
 | `bench edit [file]` | Open a file in a floating pane, or pick one with `fzf` when no file is given. |
 | `bench diff` | Review a Git diff in a floating pane using your configured pager. |
 | `bench diff --delta-tui` | Use Delta's TUI for this diff, with files folded initially. |
 
-Commands are executable files in [`bin/bench-commands/`](./bin/bench-commands/). Add an executable file there to add a command; names start with a letter or digit and use only letters, numbers, `_`, or `-`. The dispatcher passes arguments, standard streams, and exit status through.
+Commands are executable files in [`bin/bench-commands/`](./bin/bench-commands/). Add an executable file there to add a command; names start with a letter or digit and use only letters, numbers, `_`, or `-`. Put a one-line `# bench-description: ...` comment on the second line (after the shebang) so the picker and help output can explain the command. The dispatcher passes arguments, standard streams, and exit status through.
 
 See the [Git tools guide](./docs/guides/git-tools.md) for pager configuration and Delta theme details.
 

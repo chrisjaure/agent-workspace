@@ -1,4 +1,5 @@
 #!/bin/sh
+# bench-description: Review the working-tree diff in a floating pane.
 set -eu
 
 usage() {

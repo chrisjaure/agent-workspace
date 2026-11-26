@@ -9,7 +9,7 @@ case $script_path in
     /*) ;;
     *) script_path=$PWD/$script_path ;;
 esac
-bench_dir=$(CDPATH= cd -P "$(dirname "$script_path")" && pwd)
+bench_dir=$(CDPATH='' cd -P "$(dirname "$script_path")" && pwd)
 commands_dir=$bench_dir/bench-commands
 
 valid_command_name() {

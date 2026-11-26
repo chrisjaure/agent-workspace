@@ -6,7 +6,7 @@ case $script_path in
     */*) ;;
     *) script_path=$(command -v "$script_path") ;;
 esac
-workspace_dir=$(CDPATH= cd -P "$(dirname "$script_path")" && pwd)
+workspace_dir=$(CDPATH='' cd -P "$(dirname "$script_path")" && pwd)
 
 export AGENT_WORKSPACE_DIR="$workspace_dir"
 export PI_CODING_AGENT_DIR="$workspace_dir/pi"

@@ -14,3 +14,4 @@ Consider the [malleable software principles](https://malleable.systems/mission/)
 - Avoid needless coupling to specific tools. Prefer standard interfaces and user configuration (for example, use `$EDITOR` rather than hard-coding an editor).
 - Keep tool-specific integrations explicit and localized; add dependencies only when the workflow needs them.
 - Use Conventional Commits; see `CONTRIBUTING.md`.
+- Run `mise exec -- shellcheck <script>` on shell scripts you change, and resolve findings or document intentional suppressions.

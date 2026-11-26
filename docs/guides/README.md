@@ -2,6 +2,13 @@
 
 These task-oriented guides show users how to adapt the workspace: where a setting lives, how to change it, when the change becomes active, and any trust, reload, restart, or other caveats. Together they document how discoverable, changeable, testable, reversible, and responsive the setup is.
 
+## Guides
+
+- [Add a `bench` command](./bench-commands.md)
+- [Git diff review](./git-tools.md)
+- [Change Pi agent permissions](./pi-permissions.md)
+- [Change the workspace theme](./workspace-theme.md)
+
 ## Malleability scorecard
 
 Use the same four columns at the end of each guide. Each row should represent one user goal or customization path.

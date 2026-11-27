@@ -13,7 +13,7 @@ The workspace does not have one setting that recolors everything. Zellij, Pi, th
 1. In Pi, run `/settings` and select **Theme**.
 2. Choose `system`, `dark`, `light`, or an available custom theme.
 
-The choice applies in Pi and is saved in the agent directory’s `settings.json`. In this workspace, `launch-agent` sets `PI_CODING_AGENT_DIR` to `pi/`, so the setting is shared by Pi sessions launched through this workspace.
+The choice applies in Pi and is saved in the agent directory’s `settings.json`. In this workspace, `agent-workspace` sets `PI_CODING_AGENT_DIR` to `pi/`, so the setting is shared by Pi sessions launched through this workspace.
 
 Pi includes the `system`, `dark`, and `light` themes. `system` derives colors from the terminal palette and follows reported appearance changes; it is the default when no theme is configured. In `/settings`, you can also choose separate themes for light and dark terminal appearances. Pi stores that pair as `<light-theme>/<dark-theme>` (for example, `light/dark`).
 

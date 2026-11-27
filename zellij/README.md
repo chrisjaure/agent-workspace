@@ -1,6 +1,6 @@
 # Zellij Configuration
 
-From the workspace root, run `./launch-agent` after `mise trust` and `mise install`. The launcher sets `PI_CODING_AGENT_DIR` to `pi/`, `ZELLIJ_CONFIG_DIR` to `zellij/`, then opens the `Agent` layout. Set `AGENT` to select another agent command (default `pi`); `bin/workspace-agent` dispatches it from both layouts.
+From the workspace root, run `./agent-workspace` after `mise trust` and `mise install`. The launcher sets `PI_CODING_AGENT_DIR` to `pi/`, `ZELLIJ_CONFIG_DIR` to `zellij/`, then opens the `Agent` layout. Set `AGENT` to select another agent command (default `pi`); `bin/workspace-agent` dispatches it from both layouts.
 
 ## Layouts
 

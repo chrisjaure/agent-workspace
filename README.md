@@ -25,14 +25,14 @@ Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](.
 
 ## Get started
 
-[`mise.toml`](./mise.toml) pins the tool versions. To use those pinned versions, run `mise trust` and `mise install`, then start the workspace with `./launch-agent`. If you don't want to use `mise`, the launcher falls back to commands available on your `PATH`.
+[`mise.toml`](./mise.toml) pins the tool versions. To use those pinned versions, run `mise trust` and `mise install`, then start the workspace with `./agent-workspace`. If you don't want to use `mise`, the launcher falls back to commands available on your `PATH`.
 
 ## Workspace map
 
 - [`pi/`](./pi/README.md) — Pi agent directory, instructions, settings, and extensions.
 - [`zellij/`](./zellij/README.md) — Zellij configuration, layouts, and helper scripts.
 - `bin/` — workspace CLI tools; see the command reference below.
-- `launch-agent` — sets the workspace environment and starts the `Agent` layout.
+- `agent-workspace` — sets the workspace environment and starts the `Agent` layout.
 
 ## Commands
 
@@ -50,7 +50,7 @@ See the [Git tools guide](./docs/guides/git-tools.md) for pager configuration an
 
 ## Customize
 
-To change the agent harness (defaults to `pi`), set `$AGENT` to choose the agent command; it may include whitespace-separated arguments (for example, `AGENT='my-agent --resume' ./launch-agent`). It is not evaluated as shell syntax; use a wrapper script if your agent needs complex arguments. Pi-specific configuration under `pi/` is only used by Pi; another agent can use its own configuration.
+To change the agent harness (defaults to `pi`), set `$AGENT` to choose the agent command; it may include whitespace-separated arguments (for example, `AGENT='my-agent --resume' ./agent-workspace`). It is not evaluated as shell syntax; use a wrapper script if your agent needs complex arguments. Pi-specific configuration under `pi/` is only used by Pi; another agent can use its own configuration.
 
 For more advanced customizations, use the task-oriented [customization guides](./docs/guides/).
 

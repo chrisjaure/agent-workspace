@@ -5,7 +5,7 @@ A skill is a `SKILL.md` file with instructions for a particular kind of work. Pi
 ## Choose where it applies
 
 - **One project:** Install to `.agents/skills/` from that project's root with `npx skills add <owner>/<repo> --skill <skill-name> --agent pi`.
-- **This workspace's launcher:** Put reviewed skill files in `pi/skills/<skill-name>/`. `./launch-agent` sets `PI_CODING_AGENT_DIR=pi`, so these skills apply to sessions launched from this workspace, including sessions working in other repositories. The skills CLI does not install to this custom directory. Copy the actual files, not a symlink to its managed source.
+- **This workspace's launcher:** Put reviewed skill files in `pi/skills/<skill-name>/`. `./agent-workspace` sets `PI_CODING_AGENT_DIR=pi`, so these skills apply to sessions launched from this workspace, including sessions working in other repositories. The skills CLI does not install to this custom directory. Copy the actual files, not a symlink to its managed source.
 - **All Pi sessions for your user:** Add `--global` to the install command to use `~/.agents/skills/`. Pi also discovers this location when launched with this workspace's `PI_CODING_AGENT_DIR`.
 
 ## Install from skills.sh
@@ -58,5 +58,5 @@ See the [Agent Skills specification](https://agentskills.io/specification), [Pi'
 |---|---|---|---|
 | Install for one project | `npx skills add ... --agent pi` from the project root | Pi sessions working in that project | New session or `/reload` |
 | Install for all Pi sessions | Add `--global` to the skills CLI command | Pi sessions using `~/.agents/skills/`, including this workspace's launcher | New session or `/reload` |
-| Share only with this workspace's launcher | Copy reviewed skill files into `pi/skills/<skill-name>/` | Sessions launched through `./launch-agent` | New session or `/reload` |
+| Share only with this workspace's launcher | Copy reviewed skill files into `pi/skills/<skill-name>/` | Sessions launched through `./agent-workspace` | New session or `/reload` |
 | Create or edit a skill | Add or change `SKILL.md` in a discovered skill directory | When loaded for a matching task or invoked directly | `/reload` during an active session |

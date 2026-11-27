@@ -1,11 +1,11 @@
 # Pi Agent Configuration
 
-This directory is the Pi agent directory when launched through `../launch-agent`.
+This directory is the Pi agent directory when launched through `../agent-workspace`.
 
 - Global instructions: `AGENTS.md`
 - Pi settings and agent extensions: `settings.json` and `extensions/`.
 - Zellij setup and the `Agent` layout: `../zellij/`
-- Launch the workspace with `../launch-agent`.
+- Launch the workspace with `../agent-workspace`.
 
 Local credentials, trust state, sessions, and generated package data are excluded from version control. The permission system's global policy is in [`extensions/pi-permission-system/config.json`](extensions/pi-permission-system/config.json); this workspace's project-specific policy is in [`../.pi/extensions/pi-permission-system/config.json`](../.pi/extensions/pi-permission-system/config.json). See the [Pi permissions guide](../docs/guides/pi-permissions.md) for scope, reload, and disable options.
 

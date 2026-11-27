@@ -18,7 +18,7 @@ A project policy is resolved relative to Pi's **current working directory**. The
 
 ## Global policy for this workspace's Pi setup
 
-Edit `pi/extensions/pi-permission-system/config.json` to change the default policy for sessions launched through `./launch-agent`. The launcher sets `PI_CODING_AGENT_DIR` to `pi/`, so the permission extension's global config lives under that directory. This is global to this Pi agent setup, not to every Pi installation on the machine.
+Edit `pi/extensions/pi-permission-system/config.json` to change the default policy for sessions launched through `./agent-workspace`. The launcher sets `PI_CODING_AGENT_DIR` to `pi/`, so the permission extension's global config lives under that directory. This is global to this Pi agent setup, not to every Pi installation on the machine.
 
 The current global config is tracked in this repository. Review it before replacing it; it contains the existing shared policy. Use the extension's [configuration reference](https://github.com/gotgenes/pi-packages/blob/main/packages/pi-permission-system/docs/configuration.md) for policy surfaces, rule matching, and merge behavior. Reload Pi resources with `/reload` (or start a new session) after a change.
 

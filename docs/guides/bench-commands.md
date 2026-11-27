@@ -28,7 +28,7 @@ From the workspace root, make it executable:
 chmod +x bin/bench-commands/handoff
 ```
 
-Then, in a project tab in a session started by `launch-agent`, run:
+Then, in a project tab in a session started by `agent-workspace`, run:
 
 ```sh
 bench handoff

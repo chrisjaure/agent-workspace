@@ -1,6 +1,8 @@
 {
   "simpleMode": true,
   "advisorOutcomeLogging": false,
-  "advisorFallbackModel": "opencode-go/gemini-4-argon",
-  "advisorToolsEnabled": true
+  "advisorToolsEnabled": false,
+  "advisor": "opencode-go/gemini-4-argon",
+  "advisorEffort": "medium",
+  "advisorFallbackModel": "opencode-go/kimi-k3.1-pro"
 }

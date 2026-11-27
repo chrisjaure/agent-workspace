@@ -15,3 +15,7 @@ Consider the [malleable software principles](https://malleable.systems/mission/)
 - Keep tool-specific integrations explicit and localized; add dependencies only when the workflow needs them.
 - Use Conventional Commits; see `CONTRIBUTING.md`.
 - Run `mise exec -- shellcheck <script>` on shell scripts you change, and resolve findings or document intentional suppressions.
+
+# Documentation
+
+- When the user asks to customize this workspace, first read the guides in `./docs/guides/README.md` for a matching use case.

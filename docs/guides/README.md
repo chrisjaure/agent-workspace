@@ -7,6 +7,7 @@ These task-oriented guides show users how to adapt the workspace: where a settin
 - [Add a `bench` command](./bench-commands.md)
 - [Git diff review](./git-tools.md)
 - [Change Pi agent permissions](./pi-permissions.md)
+- [Customize Pi with skills](./pi-skills.md)
 - [Change the workspace theme](./workspace-theme.md)
 
 ## Malleability scorecard

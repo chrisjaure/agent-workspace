@@ -19,3 +19,7 @@ Consider the [malleable software principles](https://malleable.systems/mission/)
 # Documentation
 
 - When the user asks to customize this workspace, first read the guides in `./docs/guides/README.md` for a matching use case.
+
+# Demos
+
+- If the user requests a demo recording, read `./docs/demos/README.md` and help.

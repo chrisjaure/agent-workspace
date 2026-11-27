@@ -7,3 +7,7 @@ pi = "1.6.1"
 ripgrep = "15.2.0"
 shellcheck = "0.11.0"
 zellij = "0.46.0"
+
+# Optional terminal recording tools. Bare `mise install` skips lazy tools.
+"aqua:asciinema/asciinema" = { version = "3.2.1", lazy = true, lazy_bins = ["asciinema"] }
+"aqua:asciinema/agg" = { version = "1.9.0", lazy = true, lazy_bins = ["agg"] }

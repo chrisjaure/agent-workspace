@@ -1,0 +1,352 @@
+#!/bin/sh
+set -eu
+
+usage() {
+    printf 'Usage: %s start|stop DEMO_SLUG\n' "$0" >&2
+    printf 'Output files: docs/demos/DEMO_SLUG.cast and .gif\n' >&2
+}
+
+die() {
+    printf 'demo-record: %s\n' "$*" >&2
+    exit 1
+}
+
+case $0 in
+    */*) script_path=$0 ;;
+    *) script_path=$(command -v "$0") ;;
+esac
+case $script_path in
+    /*) ;;
+    *) script_path=$PWD/$script_path ;;
+esac
+workspace_root=$(CDPATH='' cd -P "$(dirname "$script_path")/.." && pwd)
+demos_dir=$workspace_root/docs/demos
+state_home=${XDG_STATE_HOME:-${HOME:-$workspace_root}/.local/state}
+state_dir=$state_home/agent-workspace-demo-recordings
+
+export ZELLIJ_CONFIG_DIR="$workspace_root/zellij"
+cd "$workspace_root"
+
+valid_slug() {
+    case $1 in
+        ''|[!a-zA-Z0-9]*|*[!a-zA-Z0-9_-]*) return 1 ;;
+        *) return 0 ;;
+    esac
+}
+
+prepare_state_dir() {
+    mkdir -p "$state_dir"
+    chmod 700 "$state_dir"
+}
+
+run_tool() {
+    if command -v mise >/dev/null 2>&1; then
+        mise exec --cd "$workspace_root" -- "$@"
+    else
+        "$@"
+    fi
+}
+
+zellij_cli() {
+    if command -v mise >/dev/null 2>&1; then
+        env -u ZELLIJ -u ZELLIJ_SESSION_NAME -u ZELLIJ_PANE_ID mise exec --cd "$workspace_root" -- zellij "$@"
+    else
+        env -u ZELLIJ -u ZELLIJ_SESSION_NAME -u ZELLIJ_PANE_ID zellij "$@"
+    fi
+}
+
+focused_about_pane() {
+    printf '%s\n' "$1" | awk '
+        /^  \{/ { in_pane = 1; pane_id = ""; is_plugin = 0; is_about = 0; is_floating = 0; is_focused = 0 }
+        in_pane {
+            if ($0 ~ /"id": [0-9]+,/) {
+                pane_id = $0
+                sub(/^[[:space:]]*"id": /, "", pane_id)
+                sub(/,.*/, "", pane_id)
+            }
+            if ($0 ~ /"is_plugin": true/) is_plugin = 1
+            if ($0 ~ /"title": "About Zellij"/) is_about = 1
+            if ($0 ~ /"is_floating": true/) is_floating = 1
+            if ($0 ~ /"is_focused": true/) is_focused = 1
+            if ($0 ~ /^  \},?$/) {
+                if (is_about && is_floating && is_focused && pane_id != "") {
+                    if (is_plugin) print "plugin_" pane_id
+                    else print "terminal_" pane_id
+                    exit
+                }
+                in_pane = 0
+            }
+        }
+    '
+}
+
+require_tools() {
+    missing_tools=
+    for tool do
+        if ! run_tool "$tool" --version >/dev/null 2>&1; then
+            if [ -n "$missing_tools" ]; then
+                missing_tools="$missing_tools, "
+            fi
+            missing_tools="$missing_tools$tool"
+        fi
+    done
+
+    [ -z "$missing_tools" ] && return 0
+    printf 'demo-record: required tools unavailable: %s\n' "$missing_tools" >&2
+    if command -v mise >/dev/null 2>&1; then
+        printf 'From the workspace root, trust the configuration and install the tools with:\n' >&2
+        printf '  mise trust\n  mise install --include-lazy\n' >&2
+    else
+        printf 'Install the missing tools and ensure they are on PATH.\n' >&2
+        printf 'Or install mise, then from the workspace root run:\n' >&2
+        printf '  mise trust\n  mise install --include-lazy\n' >&2
+    fi
+    exit 1
+}
+
+start_cleanup() {
+    status=$?
+    trap - EXIT HUP INT TERM
+    if [ "$start_committed" != true ]; then
+        if [ "$launch_started" = true ] && [ "$session_owned" != true ]; then
+            panes=$(zellij_cli --session "$session_name" action list-panes --json --all 2>/dev/null) || panes=
+            if printf '%s\n' "$panes" | grep -F -q 'workspace-agent' \
+                && printf '%s\n' "$panes" | grep -F -q '"tab_name": "Agent"'; then
+                session_owned=true
+            fi
+        fi
+        if [ "$session_owned" = true ]; then
+            zellij_cli kill-session "$session_name" >/dev/null 2>&1 || :
+            zellij_cli delete-session --force "$session_name" >/dev/null 2>&1 || :
+        fi
+        if [ -n "$recorder_pid" ] && kill -0 "$recorder_pid" 2>/dev/null; then
+            kill "$recorder_pid" 2>/dev/null || :
+            wait "$recorder_pid" 2>/dev/null || :
+        fi
+        rm -f "$state_tmp"
+        if [ "$launch_started" = true ] && [ -e "$cast_file" ] \
+            && head -n 1 "$cast_file" | grep -F -q -e "$session_name"; then
+            rm -f "$cast_file"
+            printf 'demo-record: removed partial cast at %s\n' "$cast_file" >&2
+        fi
+        if [ -s "$log_file" ]; then
+            printf 'demo-record: launch log retained at %s\n' "$log_file" >&2
+        fi
+    fi
+    rmdir "$lock_dir" 2>/dev/null || :
+    exit "$status"
+}
+
+stop_cleanup() {
+    status=$?
+    trap - EXIT HUP INT TERM
+    if [ -n "$temp_gif" ]; then
+        rm -f "$temp_gif"
+    fi
+    rmdir "$lock_dir" 2>/dev/null || :
+    exit "$status"
+}
+
+start_demo() {
+    slug=$1
+    valid_slug "$slug" || die 'demo slug must start with a letter or digit and contain only letters, digits, underscores, or hyphens'
+
+    require_tools zellij asciinema agg
+    prepare_state_dir
+
+    state_file=$state_dir/$slug.state
+    lock_dir=$state_dir/$slug.lock
+    cast_file=$demos_dir/$slug.cast
+    gif_file=$demos_dir/$slug.gif
+    start_id=$$
+    state_tmp=$state_dir/$slug.$start_id.state.tmp
+    log_file=$state_dir/$slug.$start_id.log
+    session_name=agent-demo-$slug-$start_id
+    recorder_pid=
+    launch_started=false
+    session_owned=false
+    start_committed=false
+
+    if ! mkdir "$lock_dir" 2>/dev/null; then
+        die "another start or stop is in progress for '$slug'"
+    fi
+    trap start_cleanup EXIT
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
+
+    [ ! -e "$state_file" ] || die "recording state already exists for '$slug'; stop or inspect it first"
+    [ ! -e "$cast_file" ] || die "refusing to overwrite $cast_file"
+    [ ! -e "$gif_file" ] || die "refusing to overwrite $gif_file"
+    [ ! -e "$log_file" ] || die "refusing to overwrite $log_file"
+    if zellij_cli list-sessions --short 2>/dev/null | grep -F -x -q -e "$session_name"; then
+        die "Zellij session already exists: $session_name"
+    fi
+    (umask 077; : > "$log_file")
+
+    title="agent-workspace demo: $slug"
+    recorded_command="./agent-workspace --new-session $session_name"
+    launch_started=true
+    if command -v mise >/dev/null 2>&1; then
+        nohup mise exec --cd "$workspace_root" -- asciinema record \
+            --headless --window-size 120x36 --idle-time-limit 1 \
+            --title "$title" --command "$recorded_command" "$cast_file" \
+            </dev/null >/dev/null 2>"$log_file" &
+    else
+        nohup asciinema record \
+            --headless --window-size 120x36 --idle-time-limit 1 \
+            --title "$title" --command "$recorded_command" "$cast_file" \
+            </dev/null >/dev/null 2>"$log_file" &
+    fi
+    recorder_pid=$!
+
+    attempt=0
+    ready=false
+    while [ "$attempt" -lt 80 ]; do
+        if zellij_cli list-sessions --short 2>/dev/null | grep -F -x -q -e "$session_name"; then
+            panes=$(zellij_cli --session "$session_name" action list-panes --json --all 2>/dev/null) || panes=
+            if printf '%s\n' "$panes" | grep -F -q 'workspace-agent' \
+                && printf '%s\n' "$panes" | grep -F -q '"tab_name": "Agent"' \
+                && printf '%s\n' "$panes" | grep -F -q '"pane_command":'; then
+                ready=true
+                session_owned=true
+                break
+            fi
+        fi
+        if ! kill -0 "$recorder_pid" 2>/dev/null; then
+            break
+        fi
+        attempt=$((attempt + 1))
+        sleep 0.25
+    done
+
+    if [ "$ready" != true ]; then
+        if kill -0 "$recorder_pid" 2>/dev/null; then
+            die "timed out waiting for the Agent layout; see $log_file"
+        fi
+        die "the launcher exited before the Agent layout was ready; see $log_file"
+    fi
+
+    # Close only the focused About popup so its Escape shortcut never reaches an app pane.
+    about_pane=$(focused_about_pane "$panes")
+    if [ -n "$about_pane" ]; then
+        zellij_cli --session "$session_name" action close-pane --pane-id "$about_pane" >/dev/null 2>&1 || :
+    fi
+
+    (
+        umask 077
+        printf '%s\n' "$session_name"
+        printf '%s\n' "$recorder_pid"
+        printf '%s\n' "$start_id"
+    ) > "$state_tmp"
+    mv "$state_tmp" "$state_file"
+    start_committed=true
+
+    printf 'Recording started: %s\n' "$slug"
+    printf 'Session: %s\n' "$session_name"
+    printf 'Cast: %s\n' "$cast_file"
+    printf '\nUse Zellij actions to interact without attaching a second client:\n'
+    if command -v mise >/dev/null 2>&1; then
+        printf '  env -u ZELLIJ -u ZELLIJ_SESSION_NAME -u ZELLIJ_PANE_ID mise exec -- zellij --session %s action list-panes --json --all\n' "$session_name"
+    else
+        printf '  env -u ZELLIJ -u ZELLIJ_SESSION_NAME -u ZELLIJ_PANE_ID zellij --session %s action list-panes --json --all\n' "$session_name"
+    fi
+    printf 'Stop with: %s stop %s\n' "$0" "$slug"
+}
+
+stop_demo() {
+    slug=$1
+    valid_slug "$slug" || die 'demo slug must start with a letter or digit and contain only letters, digits, underscores, or hyphens'
+
+    prepare_state_dir
+    state_file=$state_dir/$slug.state
+    lock_dir=$state_dir/$slug.lock
+    if ! mkdir "$lock_dir" 2>/dev/null; then
+        die "another start or stop is in progress for '$slug'"
+    fi
+    temp_gif=
+    trap stop_cleanup EXIT
+    trap 'exit 130' INT
+    trap 'exit 143' TERM
+
+    [ -f "$state_file" ] || die "no active recording state found for '$slug'"
+    state_session=
+    recorder_pid=
+    start_id=
+    {
+        IFS= read -r state_session || :
+        IFS= read -r recorder_pid || :
+        IFS= read -r start_id || :
+    } < "$state_file"
+    case $state_session in
+        "agent-demo-$slug-"*) ;;
+        *) die "invalid session name in $state_file" ;;
+    esac
+    case $recorder_pid in
+        ''|*[!0-9]*) die "invalid recorder PID in $state_file" ;;
+    esac
+    case $start_id in
+        ''|*[!0-9]*) die "invalid run ID in $state_file" ;;
+    esac
+
+    cast_file=$demos_dir/$slug.cast
+    gif_file=$demos_dir/$slug.gif
+    log_file=$state_dir/$slug.$start_id.log
+    temp_gif=$state_dir/$slug.$start_id.tmp.gif
+
+    require_tools zellij agg
+    [ ! -e "$gif_file" ] || die "refusing to overwrite $gif_file"
+
+    zellij_cli kill-session "$state_session" >/dev/null 2>&1 || :
+    attempt=0
+    while kill -0 "$recorder_pid" 2>/dev/null && [ "$attempt" -lt 80 ]; do
+        attempt=$((attempt + 1))
+        sleep 0.25
+    done
+    if kill -0 "$recorder_pid" 2>/dev/null; then
+        die "recorder PID $recorder_pid is still running; state was kept for another stop attempt"
+    fi
+
+    sessions=$(zellij_cli list-sessions --short 2>/dev/null) || sessions=
+    if printf '%s\n' "$sessions" | grep -F -x -q -e "$state_session"; then
+        zellij_cli delete-session --force "$state_session" || die "could not delete exited Zellij session $state_session"
+    fi
+
+    [ -s "$cast_file" ] || die "recording cast is missing or empty: $cast_file"
+
+    bye_line=$(grep -n -F 'Bye from Zellij!' "$cast_file" | tail -n 1 | cut -d: -f1 || :)
+    line_count=$(wc -l < "$cast_file")
+    last_line=$(tail -n 1 "$cast_file")
+    rm -f "$temp_gif"
+    if [ -n "$bye_line" ] && [ "$bye_line" -gt 2 ] \
+        && [ $((line_count - bye_line)) -eq 1 ] \
+        && printf '%s\n' "$last_line" | grep -F -q '"x"'; then
+        last_event=$((bye_line - 3))
+        run_tool agg --no-loop --idle-time-limit 1 --select "..event:$last_event" "$cast_file" "$temp_gif"
+    else
+        run_tool agg --no-loop --idle-time-limit 1 "$cast_file" "$temp_gif"
+    fi
+    mv -n "$temp_gif" "$gif_file"
+    [ ! -e "$temp_gif" ] || die "refusing to overwrite $gif_file"
+    temp_gif=
+    rm -f "$state_file" "$log_file"
+
+    printf 'Recording stopped: %s\n' "$slug"
+    printf 'Cast: %s\n' "$cast_file"
+    printf 'GIF: %s\n' "$gif_file"
+}
+
+if [ "$#" -eq 1 ] && { [ "$1" = "-h" ] || [ "$1" = "--help" ]; }; then
+    usage
+    exit 0
+fi
+if [ "$#" -ne 2 ]; then
+    usage
+    exit 2
+fi
+
+case $1 in
+    start) start_demo "$2" ;;
+    stop) stop_demo "$2" ;;
+    -h|--help) usage; exit 0 ;;
+    *) usage; exit 2 ;;
+esac

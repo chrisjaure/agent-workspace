@@ -15,11 +15,37 @@ export PATH="$workspace_dir/bin:$PATH"
 
 cd "$workspace_dir"
 
+new_session=false
+session_name=
+if [ "${1-}" = "--new-session" ]; then
+    shift
+    if [ "$#" -eq 0 ] || [ -z "$1" ]; then
+        printf 'Usage: %s --new-session NAME [zellij options...]\n' "$script_path" >&2
+        exit 2
+    fi
+    session_name=$1
+    shift
+    sessions=$(zellij list-sessions --short 2>/dev/null) || sessions=
+    if printf '%s\n' "$sessions" | grep -F -x -q -e "$session_name"; then
+        printf 'Zellij session already exists: %s\n' "$session_name" >&2
+        exit 1
+    fi
+    unset ZELLIJ ZELLIJ_SESSION_NAME ZELLIJ_PANE_ID
+    new_session=true
+fi
+
 if command -v mise >/dev/null 2>&1; then
     missing_tools=$(mise ls --missing --cd "$workspace_dir" --no-header 2>/dev/null) || missing_tools=unavailable
     if [ -z "$missing_tools" ]; then
+        if [ "$new_session" = true ]; then
+            exec mise exec --cd "$workspace_dir" -- zellij --new-session-with-layout Agent --session "$session_name" "$@"
+        fi
         exec mise exec --cd "$workspace_dir" -- zellij --layout Agent "$@"
     fi
+fi
+
+if [ "$new_session" = true ]; then
+    exec zellij --new-session-with-layout Agent --session "$session_name" "$@"
 fi
 
 exec zellij --layout Agent "$@"

@@ -1,5 +1,4 @@
-> [!NOTE]
-> This document is human-created. Agents are banned from modify it.
+<!-- This document is human-created. Agents are banned from modifying it. -->
 
 # Why Does This Exist?
 
@@ -46,3 +45,25 @@ See the [Pi extension inventory](pi/README.md#extensions) for the current extens
 I'm still evaluating Zellij for the general surface, but compared to other environments or terminal multiplexers, Zellij gets a lot right. I especially like the discoverable UX it provides in combination with advanced capabilities. It has a [very gentle slope from user to creator](https://www.inkandswitch.com/essay/malleable-software/#a-gentle-slope-from-user-to-creator). Combined with its programmatic controls, it acts as a great collaborative surface for humans and agents.
 
 I do want to note that Zellij does fall short on an important malleable principle: modifying in the context of use. A separate toolchain is required to compile Zellij plugins, and it's not possible to apply them to existing sessions. This breaks the flow and lengthens the feedback loop of contextual, iterative modification, and it could lead to the replacement of Zellij with a surface that's more malleable.
+
+## Rationale
+
+Secondary requirements beyond malleability.
+
+### Why a TUI and not a GUI?
+
+I did consider a web-based GUI, since that's one of the most malleable and user-friendly surfaces available, but TUIs are an alluring ideal due to their portability. I was impressed by Zellij because it brings a lot of user-friendly features typically found in GUIs, like contextual hints and intuitive mouse controls. **Can a TUI be used by anyone?** Let's find out!
+
+It's still worth exploring a GUI, but right now, a TUI may be enough at least to iterate on initially.
+
+### Why local agents and not remote agents?
+
+While remote agents aren't _unsupported_, the focus of this workspace is local agents. I think the friction and constraints of using local agents is a good kind of friction because, as humans, we pay a big price for context switching.
+
+In my experience, I found less joy and more stress in the development process when I managed more than 2-3 agents simultaneously. I lost intellectual control, opportunities for deep work, and chances to enter the flow state. It is not my goal to design a system where humans have to _actively_ steer **more** agents untethered from a computer (e.g. remote session sharing on a phone).
+
+However, there is more to explore in the area of _passive_ steering. If that can be done well, I will add it to this workspace.
+
+### Self-contained
+
+To keep this portable, I want the workspace to be self-contained and conflict with system configuration.

@@ -22,4 +22,4 @@ Consider the [malleable software principles](https://malleable.systems/mission/)
 
 # Demos
 
-- If the user requests a demo recording, read `./docs/demos/README.md` and help.
+- If the user requests a demo recording, read `./docs/demos/AGENTS.md` and help.

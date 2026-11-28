@@ -36,7 +36,7 @@ I follow a these criteria when adding Pi extensions:
 - They should be customizable; if I find a useful but rigid extension, I will vendor and modify it.
 - They should not bloat context by adding infrequently used tools or skills.
 
-See the [Pi extension inventory](pi/README.md#extensions) for the current extensions and why I've chosen them.
+See the [Pi extension inventory](../pi/README.md#extensions) for the current extensions and why I've chosen them.
 
 ### Why [Zellij](https://zellij.dev/)?
 

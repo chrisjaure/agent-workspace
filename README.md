@@ -21,7 +21,7 @@ flowchart TD
     surface -->|"prompts & alerts"| human
 ```
 
-Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](./ARCHITECTURE.md) covers the technical setup.
+Read [`docs/philosophy.md`](./docs/philosophy.md) for the rationale; [`docs/architecture.md`](./docs/architecture.md) covers the technical setup.
 
 ## Demo
 

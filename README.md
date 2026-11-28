@@ -60,3 +60,6 @@ To change the agent harness (defaults to `pi`), set `$AGENT` to choose the agent
 
 For more advanced customizations, use the task-oriented [customization guides](./docs/guides/).
 
+## TODO
+
+Issues or planned tasks are tracked in [`TODO.md`](./TODO.md).

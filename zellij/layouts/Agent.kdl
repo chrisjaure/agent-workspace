@@ -1,6 +1,6 @@
 layout {
     cwd "."
-    tab name="Agent" focus=true {
+    tab name="Workspace" focus=true {
         pane size=1 borderless=true {
             plugin location="zellij:bars" {
                 role "tab-bar"
@@ -23,7 +23,7 @@ layout {
             }
         }
         pane command="sh" close_on_exit=true {
-            args "-c" "d=$(\"$AGENT_WORKSPACE_DIR/zellij/scripts/pick-cwd.sh\"); if [ -n \"$d\" ]; then zellij action new-tab --layout AgentTab --cwd \"$d\"; fi"
+            args "-c" "d=$(\"$AGENT_WORKSPACE_DIR/zellij/scripts/pick-cwd.sh\"); if [ -n \"$d\" ]; then name=$(basename -- \"$d\"); zellij action new-tab --layout AgentTab --cwd \"$d\" --name \"$name\"; fi"
         }
         pane size=1 borderless=true {
             plugin location="zellij:bars" {

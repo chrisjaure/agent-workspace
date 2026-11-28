@@ -23,6 +23,12 @@ flowchart TD
 
 Read [`PHILOSOPHY.md`](./PHILOSOPHY.md) for the rationale; [`ARCHITECTURE.md`](./ARCHITECTURE.md) covers the technical setup.
 
+## Demo
+
+![Demo](./docs/demos/readme-edit.gif)
+
+More demos in [`docs/demos`](./docs/demos/README.md).
+
 ## Get started
 
 [`mise.toml`](./mise.toml) pins the tool versions. To use those pinned versions, run `mise trust` and `mise install`, then start the workspace with `./agent-workspace`. If you don't want to use `mise`, the launcher falls back to commands available on your `PATH`.
